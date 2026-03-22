@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pruned Tutor AI | Smart Learning with Context Pruning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background with Particles */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header with Unique Design */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            padding: 15px 35px;
+            border-radius: 80px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tagline {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, rgba(255,107,107,0.9), rgba(78,205,196,0.9));
+            backdrop-filter: blur(10px);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .badge:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 25px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards with Unique Gradient */
+        .card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0,0,0,0.05);
+        }
+
+        .card-header i {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+        }
+
+        .card-header p {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed #4ecdc4;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .upload-area:hover {
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #fff5f5, #ffe6e6);
+            transform: scale(1.02);
+        }
+
+        .upload-area.drag-over {
+            border-color: #45b7d1;
+            background: linear-gradient(135deg, #e3f2fd, #bbdef5);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4ecdc4;
+            color: #2c3e50;
+        }
+
+        .btn-outline:hover {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            border-color: transparent;
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #ff5252, #ff6b6b);
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+        }
+
+        /* Textbook Items */
+        .textbook-item, .paper-item {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border-left: 4px solid #4ecdc4;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .textbook-item:hover, .paper-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .textbook-item.active {
+            border-left-color: #ff6b6b;
+            background: linear-gradient(135deg, #fff5f5, #ffffff);
+        }
+
+        .textbook-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .active-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        /* Chapter Items */
+        .chapter-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 12px;
+            transition: all 0.2s;
+            border: 1px solid rgba(78,205,196,0.2);
+        }
+
+        .chapter-item:hover {
+            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+            transform: translateX(5px);
+        }
+
+        .chapter-item input {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #4ecdc4;
+        }
+
+        .chapter-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .prune-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .prune-badge.included {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            color: white;
+        }
+
+        .prune-badge.pruned {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(78,205,196,0.3);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(78,205,196,0.2);
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 20px;
+            height: 35px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: width 0.5s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.9;
+            }
+        }
+
+        /* Chat Area */
+        .chat-area {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 20px;
+            padding: 20px;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 450px;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        .message {
+            padding: 12px 18px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            max-width: 85%;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            color: white;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .question-preview {
+            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+            padding: 10px 12px;
+            margin-top: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            border-left: 3px solid #4ecdc4;
+        }
+
+        .question-preview:hover {
+            background: linear-gradient(135deg, #bbdef5, #e3f2fd);
+            transform: translateX(5px);
+        }
+
+        /* Input Area */
+        .input-area {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .input-area textarea {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #4ecdc4;
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        .input-area textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255,107,107,0.1);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 8px 0;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #ff5252, #45b7d1);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-animation" id="bgAnimation"></div>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🧠</div>
+            <h1>Pruned Tutor AI</h1>
+        </div>
+        <div class="tagline">✨ Intelligent Learning with Context Pruning | Save up to 70% on API Costs ✨</div>
+        <div class="badges">
+            <span class="badge"><i class="fas fa-upload"></i> Upload PDF/TXT</span>
+            <span class="badge"><i class="fas fa-cut"></i> Context Pruning</span>
+            <span class="badge"><i class="fas fa-chart-line"></i> 70% Cost Reduction</span>
+            <span class="badge"><i class="fas fa-brain"></i> AI Tutor</span>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <!-- Left Column -->
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <div>
+                        <h2>Upload Textbook</h2>
+                        <p>PDF or TXT files up to 50MB</p>
+                    </div>
+                </div>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <p><strong>Click or drag & drop to upload</strong></p>
+                    <small>Supports PDF and TXT files</small>
+                </div>
+                <input type="file" id="fileInput" accept=".pdf,.txt" style="display: none;">
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn btn-primary" id="uploadBtn">
+                        <i class="fas fa-upload"></i> Upload Textbook
+                    </button>
+                    <button class="btn btn-outline" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-book"></i>
+                    <div>
+                        <h2>My Textbooks</h2>
+                        <p>Manage your learning materials</p>
+                    </div>
+                </div>
+                <div id="textbookList" class="textbook-list">
+                    <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                        <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                        No textbooks yet. Upload one to get started!
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-newspaper"></i>
+                    <div>
+                        <h2>Previous Year Papers</h2>
+                        <p>Practice with past exam questions</p>
+                    </div>
+                </div>
+                <input type="file" id="paperInput" accept=".pdf,.txt" style="margin-bottom: 15px; display: block; width: 100%; padding: 8px; border: 1px solid #4ecdc4; border-radius: 12px;">
+                <button class="btn btn-primary" id="uploadPaperBtn" style="width: 100%;">
+                    <i class="fas fa-plus-circle"></i> Add Question Paper
+                </button>
+                <div id="paperList" class="papers-list" style="margin-top: 20px;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <div>
+                        <h2>Context Pruning Stats</h2>
+                        <p>Real-time cost savings</p>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill">0%</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-label" style="font-size: 0.75rem; color: #7f8c8d;">Pruned Cost</div>
+                        <div class="stat-value" id="cost">$0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💾</div>
+                        <div class="stat-label" style="font-size: 0.75rem; color: #7f8c8d;">Savings</div>
+                        <div class="stat-value" id="saved">0%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📖</div>
+                        <div class="stat-label" style="font-size: 0.75rem; color: #7f8c8d;">Selected</div>
+                        <div class="stat-value" id="selected">0/0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <h2>Active Textbook: <span id="activeBook" style="color: #ff6b6b;">None</span></h2>
+                        <p>Select chapters for context pruning</p>
+                    </div>
+                </div>
+                <div id="chaptersList" class="chapters-list">
+                    <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                        <i class="fas fa-book-open" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                        Select a textbook to view chapters
+                    </div>
+                </div>
+                <button class="btn btn-outline" id="resetBtn" style="width: 100%; margin-top: 15px;">
+                    <i class="fas fa-undo-alt"></i> Reset to First 3 Chapters
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-comments"></i>
+                    <div>
+                        <h2>AI Tutor Chat</h2>
+                        <p>Ask anything about your textbook</p>
+                    </div>
+                </div>
+                <div class="chat-area">
+                    <div class="messages" id="messages">
+                        <div class="message bot">
+                            <div class="message-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <i class="fas fa-brain"></i>
+                                <span style="font-weight: 600;">AI Tutor</span>
+                            </div>
+                            <div class="message-content">
+                                🎓 <strong>Welcome to Pruned Tutor AI!</strong><br><br>
+                                I'm your intelligent tutor with context pruning technology. Here's how to use me:<br><br>
+                                📚 <strong>Step 1:</strong> Upload a textbook (PDF/TXT)<br>
+                                🎯 <strong>Step 2:</strong> Click "Activate" on your textbook<br>
+                                ✂️ <strong>Step 3:</strong> Select relevant chapters for pruning<br>
+                                💬 <strong>Step 4:</strong> Ask any question!<br><br>
+                                <strong>💡 Try asking:</strong><br>
+                                • "Explain photosynthesis in detail"<br>
+                                • "What is Pythagoras theorem?"<br>
+                                • "Describe the structure of a cell"<br>
+                                • "What are microorganisms?"<br><br>
+                                🚀 <strong>Context Pruning</strong> saves up to 70% on API costs!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <textarea id="questionInput" rows="2" placeholder="Type your question here... (e.g., Explain photosynthesis, What are microorganisms?)"></textarea>
+                        <button class="btn btn-primary" id="sendBtn">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Create floating particles
+    function createParticles() {
+        const container = document.getElementById('bgAnimation');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = Math.random() * 5 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = Math.random() * 20 + 10 + 's';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            container.appendChild(particle);
+        }
+    }
+    createParticles();
+
+    const DEFAULT_API_BASE = 'http://127.0.0.1:5000/api';
+    const API_BASE = (window.location.protocol === 'http:' || window.location.protocol === 'https:')
+        ? window.location.origin + '/api'
+        : DEFAULT_API_BASE;
+    let textbooks = [];
+    let activeTextbookId = null;
+    let currentChapters = [];
+    let selectedChaptersMap = {};
+    let sessionId = localStorage.getItem('chat_session') || 'session_' + Date.now();
+    localStorage.setItem('chat_session', sessionId);
+
+    async function loadTextbooks() {
+        try {
+            const res = await fetch(`${API_BASE}/textbooks`);
+            if (!res.ok) throw new Error('Failed to load');
+            textbooks = await res.json();
+            renderTextbooks();
+            
+            if (textbooks.length > 0 && !activeTextbookId) {
+                activeTextbookId = textbooks[0].id;
+                await loadChapters(activeTextbookId);
+            }
+            updateStats();
+        } catch (err) {
+            console.error('Error:', err);
+            document.getElementById('textbookList').innerHTML = '<div style="text-align: center; padding: 40px; color: #ff6b6b;"><i class="fas fa-exclamation-circle" style="font-size: 2rem;"></i><br>Cannot connect to server. Make sure backend is running!</div>';
+        }
+    }
+
+    async function loadChapters(bookId) {
+        try {
+            const res = await fetch(`${API_BASE}/textbooks/${bookId}/chapters`);
+            if (!res.ok) throw new Error('Failed to load chapters');
+            currentChapters = await res.json();
+            renderChapters();
+            updateStats();
+        } catch (err) {
+            console.error('Error loading chapters:', err);
+        }
+    }
+
+    async function loadPapers() {
+        try {
+            const res = await fetch(`${API_BASE}/question-papers`);
+            const papers = await res.json();
+            renderPapers(papers);
+        } catch (err) {
+            console.error('Error loading papers:', err);
+        }
+    }
+
+    function renderTextbooks() {
+        const container = document.getElementById('textbookList');
+        if (textbooks.length === 0) {
+            container.innerHTML = '<div style="text-align: center; padding: 40px; color: #7f8c8d;"><i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>No textbooks yet. Upload one to get started!</div>';
+            return;
+        }
+        
+        container.innerHTML = textbooks.map(tb => `
+            <div class="textbook-item ${activeTextbookId === tb.id ? 'active' : ''}" data-id="${tb.id}">
+                <div class="textbook-info">
+                    <h4>📘 ${escapeHtml(tb.name)} ${activeTextbookId === tb.id ? '<span class="active-badge"><i class="fas fa-check"></i> ACTIVE</span>' : ''}</h4>
+                    <p style="font-size: 0.75rem; color: #7f8c8d;"><i class="fas fa-layer-group"></i> ${tb.chapter_count} chapters · <i class="fas fa-database"></i> ${Math.round(tb.total_tokens/1000)}K tokens</p>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-outline btn-sm" onclick="activateBook('${tb.id}')">
+                        <i class="fas fa-play"></i> Activate
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteBook('${tb.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderChapters() {
+        const container = document.getElementById('chaptersList');
+        const book = textbooks.find(t => t.id === activeTextbookId);
+        document.getElementById('activeBook').innerText = book ? book.name : 'None';
+        
+        if (!currentChapters.length) {
+            container.innerHTML = '<div style="text-align: center; padding: 40px; color: #7f8c8d;"><i class="fas fa-book-open" style="font-size: 2rem;"></i><br>No chapters found</div>';
+            return;
+        }
+        
+        if (!selectedChaptersMap[activeTextbookId]) {
+            selectedChaptersMap[activeTextbookId] = {};
+            currentChapters.forEach((_, i) => {
+                selectedChaptersMap[activeTextbookId][i] = i < 3;
+            });
+        }
+        
+        const selections = selectedChaptersMap[activeTextbookId];
+        container.innerHTML = currentChapters.map((ch, idx) => `
+            <div class="chapter-item">
+                <input type="checkbox" data-idx="${idx}" data-id="${ch.id}" ${selections[idx] ? 'checked' : ''}>
+                <div style="flex: 1;">
+                    <div class="chapter-title">${escapeHtml(ch.title)}</div>
+                    <div style="font-size: 0.7rem; color: #7f8c8d;"><i class="fas fa-chart-line"></i> ${ch.token_count} tokens</div>
+                </div>
+                <span class="prune-badge ${selections[idx] ? 'included' : 'pruned'}">
+                    ${selections[idx] ? '<i class="fas fa-check"></i> included' : '<i class="fas fa-cut"></i> pruned'}
+                </span>
+            </div>
+        `).join('');
+        
+        document.querySelectorAll('.chapter-item input').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const idx = parseInt(e.target.dataset.idx);
+                if (activeTextbookId && selectedChaptersMap[activeTextbookId]) {
+                    selectedChaptersMap[activeTextbookId][idx] = e.target.checked;
+                    renderChapters();
+                    updateStats();
+                }
+            });
+        });
+    }
+
+    function renderPapers(papers) {
+        const container = document.getElementById('paperList');
+        if (!papers.length) {
+            container.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;"><i class="fas fa-file-alt"></i> No question papers uploaded</div>';
+            return;
+        }
+        
+        container.innerHTML = papers.map(paper => `
+            <div class="paper-item">
+                <div style="flex: 1;">
+                    <h4 style="margin-bottom: 5px;"><i class="fas fa-file-pdf"></i> ${escapeHtml(paper.name)}</h4>
+                    <p style="font-size: 0.75rem; color: #7f8c8d;"><i class="fas fa-question-circle"></i> ${paper.question_count} questions</p>
+                    ${paper.questions ? paper.questions.slice(0, 2).map(q => `
+                        <div class="question-preview" onclick="setQuestion('${escapeHtml(q.text).replace(/'/g, "\\'")}')">
+                            <i class="fas fa-question"></i> ${escapeHtml(q.text.substring(0, 70))}${q.text.length > 70 ? '...' : ''}
+                        </div>
+                    `).join('') : ''}
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="deletePaper('${paper.id}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `).join('');
+    }
+
+    function updateStats() {
+        if (!activeTextbookId || !currentChapters.length) {
+            document.getElementById('cost').innerText = '$0.00';
+            document.getElementById('saved').innerText = '0%';
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('selected').innerText = '0/0';
+            return;
+        }
+        
+        const book = textbooks.find(t => t.id === activeTextbookId);
+        if (!book) return;
+        
+        const selections = selectedChaptersMap[activeTextbookId] || {};
+        let selectedCount = 0, selectedTokens = 0;
+        
+        currentChapters.forEach((ch, i) => {
+            if (selections[i]) {
+                selectedCount++;
+                selectedTokens += ch.token_count;
+            }
+        });
+        
+        if (selectedTokens === 0 && currentChapters.length) {
+            selectedTokens = currentChapters[0]?.token_count || 1000;
+            selectedCount = 1;
+        }
+        
+        const savedPercent = book.total_tokens > 0 ? ((book.total_tokens - selectedTokens) / book.total_tokens * 100).toFixed(1) : 70;
+        const cost = (selectedTokens / 1000) * 0.002;
+        
+        document.getElementById('cost').innerText = `$${cost.toFixed(5)}`;
+        document.getElementById('saved').innerText = `${savedPercent}%`;
+        document.getElementById('progressFill').style.width = `${savedPercent}%`;
+        document.getElementById('progressFill').innerHTML = `${savedPercent}% pruned`;
+        document.getElementById('selected').innerText = `${selectedCount}/${currentChapters.length}`;
+    }
+
+    async function uploadTextbook(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        try {
+            const res = await fetch(`${API_BASE}/textbooks`, { method: 'POST', body: formData });
+            if (!res.ok) throw new Error('Upload failed');
+            const data = await res.json();
+            alert(`✅ "${file.name}" uploaded successfully!\n\n${data.chapter_count} chapters extracted.`);
+            await loadTextbooks();
+        } catch (err) {
+            alert(`❌ Upload failed: ${err.message}`);
+        }
+    }
+
+    async function deleteBook(id) {
+        if (!confirm('Delete this textbook? All chapters will be removed.')) return;
+        try {
+            await fetch(`${API_BASE}/textbooks/${id}`, { method: 'DELETE' });
+            if (activeTextbookId === id) {
+                activeTextbookId = null;
+                currentChapters = [];
+                renderChapters();
+            }
+            await loadTextbooks();
+            updateStats();
+            addMessage('🗑️ Textbook deleted successfully!', 'bot');
+        } catch (err) {
+            alert('Failed to delete textbook');
+        }
+    }
+
+    async function deletePaper(id) {
+        if (!confirm('Delete this question paper?')) return;
+        try {
+            await fetch(`${API_BASE}/question-papers/${id}`, { method: 'DELETE' });
+            await loadPapers();
+            addMessage('📄 Question paper deleted!', 'bot');
+        } catch (err) {
+            alert('Failed to delete paper');
+        }
+    }
+
+    async function sendMessage() {
+        const question = document.getElementById('questionInput').value.trim();
+        if (!question) {
+            addMessage('Please enter a question!', 'bot');
+            return;
+        }
+        
+        if (!activeTextbookId) {
+            addMessage('⚠️ Please select a textbook first! Upload and activate a textbook from the sidebar.', 'bot');
+            return;
+        }
+        
+        addMessage(question, 'user');
+        document.getElementById('questionInput').value = '';
+        
+        const selections = selectedChaptersMap[activeTextbookId] || {};
+        const selectedIds = [];
+        currentChapters.forEach((ch, i) => {
+            if (selections[i] && ch.id) selectedIds.push(ch.id);
+        });
+        
+        const messagesDiv = document.getElementById('messages');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message bot';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="message-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <i class="fas fa-brain"></i>
+                <span style="font-weight: 600;">AI Tutor</span>
+            </div>
+            <div class="message-content">
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        `;
+        messagesDiv.appendChild(typingDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        
+        try {
+            const res = await fetch(`${API_BASE}/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: question,
+                    textbook_id: activeTextbookId,
+                    selected_chapters: selectedIds,
+                    session_id: sessionId
+                })
+            });
+            
+            if (!res.ok) throw new Error('Chat failed');
+            const data = await res.json();
+            
+            document.getElementById('typingIndicator')?.remove();
+            addMessage(data.answer, 'bot');
+            updateStats();
+        } catch (err) {
+            document.getElementById('typingIndicator')?.remove();
+            addMessage(`❌ Error: ${err.message}. Make sure the server is running.`, 'bot');
+        }
+    }
+
+    function addMessage(text, type) {
+        const container = document.getElementById('messages');
+        const div = document.createElement('div');
+        div.className = `message ${type}`;
+        
+        if (type === 'user') {
+            div.innerHTML = `
+                <div class="message-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <i class="fas fa-user"></i>
+                    <span style="font-weight: 600;">You</span>
+                </div>
+                <div class="message-content">${escapeHtml(text).replace(/\n/g, '<br>')}</div>
+            `;
+        } else {
+            div.innerHTML = `
+                <div class="message-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <i class="fas fa-brain"></i>
+                    <span style="font-weight: 600;">AI Tutor</span>
+                </div>
+                <div class="message-content">${escapeHtml(text).replace(/\n/g, '<br>')}</div>
+            `;
+        }
+        
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function setQuestion(text) {
+        document.getElementById('questionInput').value = text;
+        document.getElementById('questionInput').focus();
+    }
+
+    async function activateBook(id) {
+        activeTextbookId = id;
+        await loadChapters(id);
+        renderTextbooks();
+        updateStats();
+        addMessage(`📚 Switched to textbook! Selected ${Object.values(selectedChaptersMap[id] || {}).filter(v => v).length} chapters for pruning.`, 'bot');
+    }
+
+    function resetChapters() {
+        if (activeTextbookId && currentChapters.length) {
+            const reset = {};
+            currentChapters.forEach((_, i) => reset[i] = i < 3);
+            selectedChaptersMap[activeTextbookId] = reset;
+            renderChapters();
+            updateStats();
+            addMessage('🔄 Reset to first 3 chapters! Context pruning active.', 'bot');
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Event Listeners
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+        document.getElementById('fileInput').click();
+    });
+    
+    document.getElementById('fileInput').addEventListener('change', (e) => {
+        if (e.target.files[0]) uploadTextbook(e.target.files[0]);
+        e.target.value = '';
+    });
+    
+    document.getElementById('uploadPaperBtn').addEventListener('click', async () => {
+        const file = document.getElementById('paperInput').files[0];
+        if (!file) {
+            alert('Select a file first');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            const res = await fetch(`${API_BASE}/question-papers`, { method: 'POST', body: formData });
+            if (!res.ok) throw new Error('Upload failed');
+            await loadPapers();
+            alert('✅ Question paper uploaded!');
+            document.getElementById('paperInput').value = '';
+        } catch (err) {
+            alert('Upload failed: ' + err.message);
+        }
+    });
+    
+    document.getElementById('refreshBtn').addEventListener('click', () => {
+        loadTextbooks();
+        loadPapers();
+        addMessage('🔄 Refreshed data!', 'bot');
+    });
+    
+    document.getElementById('sendBtn').addEventListener('click', sendMessage);
+    document.getElementById('resetBtn').addEventListener('click', resetChapters);
+    document.getElementById('questionInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    const uploadArea = document.getElementById('uploadArea');
+    uploadArea.addEventListener('click', () => document.getElementById('fileInput').click());
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('drag-over');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('drag-over');
+    });
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file && (file.name.endsWith('.pdf') || file.name.endsWith('.txt'))) {
+            uploadTextbook(file);
+        } else {
+            alert('Please drop a PDF or TXT file');
+        }
+    });
+    
+    loadTextbooks();
+    loadPapers();
+    
+    window.activateBook = activateBook;
+    window.deleteBook = deleteBook;
+    window.deletePaper = deletePaper;
+    window.setQuestion = setQuestion;
+</script>
+</body>
+</html>
